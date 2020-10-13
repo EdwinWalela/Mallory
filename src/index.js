@@ -132,9 +132,9 @@ client.on('message',async(message)=>{
                     message.channel.send("Give it another shot");
                     break;
 
-                case 4:
-                    message.channel.send(`Hint: Ends with '${riddle.answers[0][riddle.answers.length-1]}' 😉`)
-                    break;
+                // case 4:
+                    // message.channel.send(`Hint: Ends with '${riddle.answers[0][riddle.answers.length-1]}' 😉`)
+                    // break;
 
                 default:
                     message.channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
