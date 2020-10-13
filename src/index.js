@@ -32,8 +32,13 @@ const client = new Client({disableEveryone:false});
 
 client.login(TOKEN);
 
-client.on("ready",()=>{
+client.on("ready",async()=>{
     console.log("Bot online");
+    const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
+
+    const greetings = ["Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?","Hello World 🌍","I come in peace 👽"]
+    
+    channel.send(greetings[Math.floor(Math.random()*greetings.length)]);
 })
 
 client.on('message',async(message)=>{
@@ -61,7 +66,7 @@ client.on('message',async(message)=>{
                 break;
             case "next":
                 if(isBot) return;
-
+                if(channel != "bot-commands") return;   
                 let lesson = await nextClass();
                 let activities = ["Rocket League","Amoung us","PUBG","Assignments"];
 
@@ -95,14 +100,14 @@ client.on('message',async(message)=>{
 })
 
 client.on("class-update",async(lesson)=>{
-    const channel = await client.channels.fetch("765523835545321472");
+    const channel = await client.channels.fetch(process.env.CLASS_UPDATES_CHANNEL);
 
     let msg = lesson.startHour < 12 ? "Good morning @everyone🥳🥳\n\n" : "Heads up @everyone📢📢\n\n";
 
     msg += `**${lesson.title}** is about to start\n\nHere is the link 🔗\n${lesson.link}`;
 
     channel.send(msg);
-})
+})  
 
 
 setInterval(async()=>{
