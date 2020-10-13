@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const RiddleSessionSchema = new Schema({
     players:[String],
-    points:[Number]
+    points:[Number],
+    answered:[String],
+    current:String,
 })
 
 const Lesson = mongoose.model("riddlesessions",RiddleSessionSchema);

@@ -2,6 +2,7 @@ require('dotenv').config();
 const TOKEN = process.env.DISCORD_BOT_TOKEN;
 const PORT = process.env.PORT || 3000;
 const DB_URI = process.env.DB_URI;
+let RIDDLE_MODE = false;
 
 const { Client } = require('discord.js');
 const mongoose = require("mongoose");
@@ -13,6 +14,8 @@ const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
 
 const Lesson = require("./models/Lesson");
+const Riddle = require("./models/Riddle");
+const RiddleSession = require("./models/RiddleSession");
 
 const app = express();
 
@@ -87,7 +90,8 @@ client.on('message',async(message)=>{
                 break;
 
             case "riddle":
-                await riddle(["edwin","mallory"],message.channel);
+                RIDDLE_MODE = true;
+                await riddle(["edwin","mallory"],message.channel,client);
                 break;
 
             case "help":
@@ -103,6 +107,41 @@ client.on('message',async(message)=>{
                 message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help`)
                 break;
         }
+    }else if(RIDDLE_MODE){
+        let session = await RiddleSession.findOne({});
+        let riddle = await Riddle.findById(session.current);
+
+        if(riddle.answers.includes(content) ){
+            message.channel.send(`GG <@${authorID}> 🥳`)
+            RIDDLE_MODE = false;
+        }else if(content == "pass" ){
+            message.channel.send("Better luck next time 🙃");
+        }else{
+            let choice = Math.floor(Math.random()*5)
+            switch (choice) {
+                case 1:
+                    message.channel.send("Try again");
+                    break;
+                case 2:
+                    message.channel.send("Not quite");
+                    break;
+
+                case 3:
+                    message.channel.send("Give it another shot");
+                    break;
+
+                case 4:
+                    message.channel.send(`Hint: Ends with '${riddle.answers[0][riddle.answers.length-1]}' 😉`)
+                    break;
+
+                default:
+                    message.channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
+                    break;
+            }
+           
+           
+        }
+        
     }
 
 })
