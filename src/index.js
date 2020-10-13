@@ -45,9 +45,9 @@ client.on("ready",async()=>{
     const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
 
     //"Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?"
-    const greetings = ["Hello World 🌍","I come in peace 👽"]
+    // const greetings = ["Hello World 🌍","I come in peace 👽"]
     
-    channel.send(greetings[Math.floor(Math.random()*greetings.length)]);
+    // channel.send(greetings[Math.floor(Math.random()*greetings.length)]);
 })
 
 client.on('message',async(message)=>{
