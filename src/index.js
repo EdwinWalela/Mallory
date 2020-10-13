@@ -36,7 +36,6 @@ client.on('message',(message)=>{
 
                 break;
             default:
-            
                 message.channel.send(`<@${authorID}>, I don't know that command 🥴`)
                 break;
         }
@@ -44,8 +43,21 @@ client.on('message',(message)=>{
 
 })
 
-client.on("update",(msg)=>{
-    client.channels.fetch("")
+client.on("class-update",async(msg)=>{
+    const channel = await client.channels.fetch("765523835545321472");
+    channel.send(msg);
 })
 
-// client.emit("update","AI starts soon");
+
+setInterval(()=>{
+    let time  = new Date().getUTCHours() + 3;
+    if(time == 8){
+        //query db for classes
+    }
+
+    if(time == 14){
+        // query db for classes
+    }
+
+},5000)
+// },300000) // 5 minutes
