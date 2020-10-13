@@ -7,7 +7,11 @@ const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
 
+const riddle = require("./callbacks/riddle");
+
 const LessonRoutes = require("./routes/Lessons");
+const RiddleRoutes = require("./routes/Riddles");
+
 const Lesson = require("./models/Lesson");
 
 const app = express();
@@ -27,6 +31,7 @@ mongoose.connect(DB_URI,()=>{
 })
 
 app.use('/api/lessons',LessonRoutes); 
+app.use('/api/riddles',RiddleRoutes);
 
 const client = new Client({disableEveryone:false});
 
@@ -79,6 +84,10 @@ client.on('message',async(message)=>{
 
                 message.channel.send(msg)
 
+                break;
+
+            case "riddle":
+                await riddle(["edwin","mallory"],message.channel);
                 break;
 
             case "help":

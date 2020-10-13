@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const RiddleSchema = new Schema({
     body:String,
-    answer:String
+    answers:[String]
 })
 
-const Lesson = mongoose.model("riddles",LessonSchema);
+const Lesson = mongoose.model("riddles",RiddleSchema);
 
 module.exports = Lesson;
