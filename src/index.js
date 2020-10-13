@@ -20,14 +20,19 @@ client.on('message',(message)=>{
     if(isBot) return;
 
     if(content.startsWith(".")){
-        const CMD = content.substr(1,content.length);
+        const [CMD,...args] = content.trim()
+            .substr(1,content.length)
+            .split(/\s+/);
+        
         switch (CMD) {
             case "ping":
                 const responseTime = new Date().getMilliseconds();
                 const ping = responseTime - requestTime;
                 message.channel.send(`🏓 Pong! ${ping} ms`);
                 break;
-        
+            case "":
+
+                break;
             default:
                 break;
         }
@@ -36,7 +41,7 @@ client.on('message',(message)=>{
 })
 
 client.on("update",(msg)=>{
-    // client.ch
+    client.channels.fetch("")
 })
 
 // client.emit("update","AI starts soon");
