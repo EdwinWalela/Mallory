@@ -16,13 +16,15 @@ client.on('message',(message)=>{
     let content = message.content;
     let author = message.author.username;
     let isBot = message.author.bot;
+    let authorID = message.author.id;
 
     if(isBot) return;
 
     if(content.startsWith(".")){
-        const [CMD,...args] = content.trim()
+        const [CMD,...args] = content.trim()   
+            .toLowerCase()
             .substr(1,content.length)
-            .split(/\s+/);
+            .split(/\s+/)
         
         switch (CMD) {
             case "ping":
@@ -34,6 +36,8 @@ client.on('message',(message)=>{
 
                 break;
             default:
+            
+                message.channel.send(`<@${authorID}>, I don't know that command 🥴`)
                 break;
         }
     }
