@@ -67,7 +67,7 @@ client.on('message',async(message)=>{
             case "next":
                 if(isBot) return; 
                 let lesson = await nextClass();
-                let activities = ["Rocket League","Amoung us","PUBG","Assignments"];
+                let activities = ["Rocket League","Among us","PUBG","Assignments"];
 
                 let activity = activities[Math.floor(Math.random()*activities.length)];
              
