@@ -36,7 +36,8 @@ client.on("ready",async()=>{
     console.log("Bot online");
     const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
 
-    const greetings = ["Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?","Hello World 🌍","I come in peace 👽"]
+    //"Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?"
+    const greetings = ["Hello World 🌍","I come in peace 👽"]
     
     channel.send(greetings[Math.floor(Math.random()*greetings.length)]);
 })
@@ -61,12 +62,10 @@ client.on('message',async(message)=>{
             case "ping":
                 const responseTime = new Date().getMilliseconds();
                 const ping = responseTime - requestTime;
-                if(channel.substr(1,channel.length) != "bot-commands") return;
                 message.channel.send(`🏓 Pong! ${ping} ms`);
                 break;
             case "next":
-                if(isBot) return;
-                if(channel.substr(1,channel.length) != "bot-commands") return;   
+                if(isBot) return; 
                 let lesson = await nextClass();
                 let activities = ["Rocket League","Amoung us","PUBG","Assignments"];
 
