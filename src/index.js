@@ -61,12 +61,12 @@ client.on('message',async(message)=>{
             case "ping":
                 const responseTime = new Date().getMilliseconds();
                 const ping = responseTime - requestTime;
-                if(channel != "bot-commands") return;
+                if(channel.substr(1,channel.length) != "bot-commands") return;
                 message.channel.send(`🏓 Pong! ${ping} ms`);
                 break;
             case "next":
                 if(isBot) return;
-                if(channel != "bot-commands") return;   
+                if(channel.substr(1,channel.length) != "bot-commands") return;   
                 let lesson = await nextClass();
                 let activities = ["Rocket League","Amoung us","PUBG","Assignments"];
 
