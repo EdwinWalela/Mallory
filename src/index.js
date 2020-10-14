@@ -7,6 +7,7 @@ let RIDDLE_MODE = false;
 const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
+const crypto = require("crypto");
 
 const riddle = require("./callbacks/riddle");
 
@@ -92,10 +93,15 @@ client.on('message',async(message)=>{
                 message.channel.send(msg)
 
                 break;
-
+            
             case "riddle":
                 RIDDLE_MODE = true;
                 await riddle(["edwin","mallory"],message.channel,client);
+                break;
+
+            case "sha256":
+                const hash = crypto.createHash('sha256');
+                message.channel.send(`\`${hash.digest('hex')}\``)
                 break;
 
             case "help":
@@ -104,8 +110,9 @@ client.on('message',async(message)=>{
                 body += `Here are the commands I can respond to:\n\n`
                 body += `\` .ping \`  - check if I'm active 🏓\n\n`
                 body += `\` .next \` - an update on when the next class 📚\n\n`
-                body += `\` .riddle \` - play a quick riddle game 🎮\n\n`
-                body += `\`  pass \` - end the riddle game 🙅‍♂️`
+                body += `\` .riddle \` - play a quick riddle game \n\n`
+                body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
+                body += `\` .sha256 [plain-text] \` - SHA256 digest \n\n`
 
                 let embed = {
                     color: 3447003,
