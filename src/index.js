@@ -117,7 +117,7 @@ client.on('message',async(message)=>{
         let session = await RiddleSession.findOne({});
         let riddle = await Riddle.findById(session.current);
 
-        if(riddle.answers.includes(content) ){
+        if(riddle.answers.includes(content.toLowerCase()) ){
             message.channel.send(`GG <@${authorID}> 🥳`)
             RIDDLE_MODE = false;
         }else if(content == "pass" ){
@@ -196,4 +196,3 @@ const nextClass = async() =>{
         return [];
     }
 }
-
