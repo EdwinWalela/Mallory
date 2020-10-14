@@ -126,18 +126,18 @@ client.on('message',async(message)=>{
         }else{
             let choice = Math.floor(Math.random()*5)
             switch (choice) {
-                // case 1:
-                //     message.channel.send("Try again");
-                //     break;
-                // case 2:
-                //     message.channel.send("Not quite");
-                //     break;
+                case 1:
+                    message.channel.send("Try again");
+                    break;
+                case 2:
+                    message.channel.send("Not quite");
+                    break;
 
-                // case 3:
-                //     message.channel.send("Give it another shot");
-                //     break;
+                case 3:
+                    message.channel.send("Give it another shot");
+                    break;
 
-                default:
+                case 4:
                     let word = riddle.answers[0];
                     let wordLength = word.length
                     let lastChar = word[wordLength-1];
@@ -145,9 +145,9 @@ client.on('message',async(message)=>{
                     message.channel.send(`Hint: Ends with '${lastChar}' 😉`)
                     break;
 
-                // default:
-                //     message.channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
-                //     break;
+                default:
+                    message.channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
+                    break;
             }
            
            
@@ -166,7 +166,6 @@ client.on("class-update",async(lesson)=>{
    
     channel.send(msg);
 })  
-
 
 setInterval(async()=>{
     let date = new Date();
