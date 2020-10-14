@@ -36,6 +36,10 @@ mongoose.connect(DB_URI,()=>{
 app.use('/api/lessons',LessonRoutes); 
 app.use('/api/riddles',RiddleRoutes);
 
+app.get('/',(req,res)=>{
+    res.send({msg:"Hello World 🌍"})
+})
+
 const client = new Client({disableEveryone:false});
 
 client.login(TOKEN);
@@ -166,17 +170,15 @@ setInterval(async()=>{
     let minute = date.getMinutes();
 
     let lessons = await Lesson.find({day});
-
-    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time < 2 && Number(lesson.startHour) - time >=0)
-
+    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 0)
     if(lessons.length != 0){
         if(minute <= 10){
             client.emit("class-update",lessons[0]);
         }
     }
 
-// },5000) //5 seconds
-},5*60000) // 5 minutes
+},5000) //5 seconds
+// },5*60000) // 5 minutes
 
 const nextClass = async() =>{
     let time  = new Date().getUTCHours() + 3;
@@ -191,5 +193,5 @@ const nextClass = async() =>{
     }else{
         return [];
     }
-
 }
+
