@@ -172,13 +172,13 @@ setInterval(async()=>{
     let lessons = await Lesson.find({day});
     lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 0)
     if(lessons.length != 0){
-        if(minute <= 10){
+        if(minute < 10){
             client.emit("class-update",lessons[0]);
         }
     }
 
 // },5000) //5 seconds
-},5*60000) // 5 minutes
+},10*60000) // 10 minutes
 
 const nextClass = async() =>{
     let time  = new Date().getUTCHours() + 3;
