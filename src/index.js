@@ -102,10 +102,10 @@ client.on('message',async(message)=>{
                 
                 let body = `Hi <@${authorID}>\n\n`
                 body += `\`\`\`Here are the commands I can respond to:\n\n`
-                body += `.ping - check if I'm active\n\n`
-                body += `.next - an update on when the next class starts\n\n`
-                body += `.riddle - play a quick riddle game\n\n`
-                body += ` pass - end the riddle game\`\`\``
+                body += `.ping - check if I'm active 🏓\n\n`
+                body += `.next - an update on when the next class starts 📚\n\n`
+                body += `.riddle - play a quick riddle game 🎮\n\n`
+                body += ` pass - end the riddle game 🙅‍♂️\`\`\``
                 message.channel.send(body);
                 break;
             
