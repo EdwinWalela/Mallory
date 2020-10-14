@@ -194,6 +194,8 @@ const nextClass = async() =>{
 
     lessons = lessons.filter(lesson=> Number(lesson.startHour) - time <= 8)
 
+    lessons = lessons.filter(lesson=> Number(lesson.startHour) > time)
+
     if(lessons.length != 0){
         return lessons[0]
     }else{

@@ -14,14 +14,14 @@ const riddleGame = async(players,channel,client) => {
     // channel.send('Game starts in 5 seconds...');
 
     await RiddleSession.collection.drop();
-
-    let skip = Math.floor(Math.random()*21);
+    
     // Get riddles from db
-    let riddle = await Riddle.find({})
-    .skip(skip)
-    .limit(1);
+    let riddle = await Riddle.find({});
+    let random = Math.floor(Math.random()*riddle.length-1);
+    console.log(riddle)
+    console.log(random)
 
-    riddle = riddle[0];
+    riddle = riddle[random];
     let points = [];
     // Create a riddle session
     players.forEach(player => {
@@ -31,8 +31,6 @@ const riddleGame = async(players,channel,client) => {
     let answered = [];
     let current = riddle._id;
     let session = {players,points,answered,current}
-    
-    console.log(current)
 
     await new RiddleSession({players,points,answered,session,current}).save();
     
