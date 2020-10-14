@@ -172,7 +172,7 @@ setInterval(async()=>{
     let lessons = await Lesson.find({day});
     lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 0)
     if(lessons.length != 0){
-        if(minute < 10){
+        if(minute <= 10){
             client.emit("class-update",lessons[0]);
         }
     }
@@ -180,7 +180,7 @@ setInterval(async()=>{
     console.log(`last check at ${new Date().getTime()}`)
 
 // },5000) //5 seconds
-},10*60000) // 10 minutes
+},9*60000) // 10 minutes
 
 const nextClass = async() =>{
     let time  = new Date().getUTCHours() + 3;
