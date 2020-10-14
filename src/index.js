@@ -177,6 +177,8 @@ setInterval(async()=>{
         }
     }
 
+    console.log(`last check at ${new Date().getTime()}`)
+
 // },5000) //5 seconds
 },10*60000) // 10 minutes
 
