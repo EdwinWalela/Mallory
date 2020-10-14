@@ -47,7 +47,7 @@ client.login(TOKEN);
 client.on("ready",async()=>{
     console.log("Bot online");
     const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
-
+    client.user.setActivity('Lo-Fi',{type:'LISTENING'})
     //"Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?"
     // const greetings = ["Hello World 🌍","I come in peace 👽"]
     
