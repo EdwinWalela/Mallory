@@ -154,25 +154,29 @@ client.on("class-update",async(lesson)=>{
     let msg = lesson.startHour < 12 ? "Good morning @everyone🥳🥳\n\n" : "Heads up @everyone📢📢\n\n";
 
     msg += `**${lesson.title}** is about to start\n\nHere is the link 🔗\n${lesson.link}`;
-
+   
     channel.send(msg);
 })  
 
 
 setInterval(async()=>{
-    let time  = new Date().getUTCHours() + 3;
-    let day = new Date().getDay();
+    let date = new Date();
+    let time  = date.getUTCHours() + 3;
+    let day = date.getDay();
+    let minute = date.getMinutes();
 
     let lessons = await Lesson.find({day});
 
-    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 1)
+    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time < 2 && Number(lesson.startHour) - time >=0)
 
     if(lessons.length != 0){
-        client.emit("class-update",lessons[0]);
+        if(minute <= 10){
+            client.emit("class-update",lessons[0]);
+        }
     }
 
-// },5000) 5 seconds
-},300000) // 5 minutes
+// },5000) //5 seconds
+},5*60000) // 5 minutes
 
 const nextClass = async() =>{
     let time  = new Date().getUTCHours() + 3;
