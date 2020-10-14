@@ -101,12 +101,18 @@ client.on('message',async(message)=>{
             case "help":
                 
                 let body = `Hi <@${authorID}>\n\n`
-                body += `\`\`\`Here are the commands I can respond to:\n\n`
-                body += `.ping - check if I'm active 🏓\n\n`
-                body += `.next - an update on when the next class starts 📚\n\n`
-                body += `.riddle - play a quick riddle game 🎮\n\n`
-                body += ` pass - end the riddle game 🙅‍♂️\`\`\``
-                message.channel.send(body);
+                body += `Here are the commands I can respond to:\n\n`
+                body += `\` .ping \`  - check if I'm active 🏓\n\n`
+                body += `\` .next \` - an update on when the next class 📚\n\n`
+                body += `\` .riddle \` - play a quick riddle game 🎮\n\n`
+                body += `\`  pass \` - end the riddle game 🙅‍♂️`
+
+                let embed = {
+                    color: 3447003,
+                    description:body
+                }
+
+                message.channel.send({embed});
                 break;
             
             default:

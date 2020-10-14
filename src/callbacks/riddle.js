@@ -22,9 +22,6 @@ const riddleGame = async(players,channel,client) => {
     // Get riddles from db
     let riddle = await Riddle.find({});
     let random = Math.floor(Math.random()*riddle.length-1);
-    console.log(riddle)
-    console.log(random)
-
     riddle = riddle[random];
     let points = [];
     // Create a riddle session
