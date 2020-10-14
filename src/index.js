@@ -180,10 +180,10 @@ const nextClass = async() =>{
 
     let lessons = await Lesson.find({day});
 
-    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 1)
+    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time <= 8)
 
     if(lessons.length != 0){
-        return lesson[0]
+        return lessons[0]
     }else{
         return [];
     }
