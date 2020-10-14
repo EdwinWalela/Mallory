@@ -177,8 +177,8 @@ setInterval(async()=>{
         }
     }
 
-},5000) //5 seconds
-// },5*60000) // 5 minutes
+// },5000) //5 seconds
+},5*60000) // 5 minutes
 
 const nextClass = async() =>{
     let time  = new Date().getUTCHours() + 3;
