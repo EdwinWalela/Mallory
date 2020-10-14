@@ -13,7 +13,11 @@ const riddleGame = async(players,channel,client) => {
 
     // channel.send('Game starts in 5 seconds...');
 
-    await RiddleSession.collection.drop();
+    try{
+        await RiddleSession.collection.drop();
+    }catch(err){
+        console.log(err);
+    }
     
     // Get riddles from db
     let riddle = await Riddle.find({});
