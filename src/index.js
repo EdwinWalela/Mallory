@@ -103,6 +103,10 @@ client.on('message',async(message)=>{
                 const hash = crypto.createHash('sha256');
                 message.channel.send(`\`${hash.digest('hex')}\``)
                 break;
+            
+            case "goat":
+                message.channel.send({files:["http://placegoat.com/600.jpg"]})
+                break;
 
             case "help":
                 
@@ -113,6 +117,7 @@ client.on('message',async(message)=>{
                 body += `\` .riddle \` - play a quick riddle game \n\n`
                 body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
                 body += `\` .sha256 [plain-text] \` - SHA256 digest \n\n`
+                body += `\` .goat \` - 🐏 \n\n`
 
                 let embed = {
                     color: 3447003,
@@ -133,7 +138,7 @@ client.on('message',async(message)=>{
         if(riddle.answers.includes(content.toLowerCase()) ){
             message.channel.send(`GG <@${authorID}> 🥳`)
             RIDDLE_MODE = false;
-        }else if(content == "pass" ){
+        }else if(content.toLowerCase() == "pass" ){
             message.channel.send("Better luck next time 🙃");
             RIDDLE_MODE = false;
         }else{
