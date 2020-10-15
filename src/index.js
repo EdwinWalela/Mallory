@@ -55,7 +55,7 @@ client.on('message',async(message)=>{
 
     if(isBot) return;
 
-    if(content.toLowerCase() == "gg"){
+    if(content.toLowerCase().includes("gg")){
         message.channel.send('😊');
         return
     }
