@@ -39,7 +39,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         case "riddle":
-            await riddleCallback(["edwin","mallory"],channel,client);
+            await riddleCallback(["edwin","mallory"],message.channel,client);
             return true;
 
         case "sha256":
@@ -113,7 +113,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         default:
-            channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help`)
+            message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help`)
             break;
     }
 }
