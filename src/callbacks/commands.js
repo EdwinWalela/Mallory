@@ -70,7 +70,12 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             }
 
             message.channel.send({embed});
-            message.author.send(`${advice}✨`);
+
+            let emoji = ['✨','⛱','🎈','🌍','🌅','🌟','☄','🌙','🌞'];
+            let i = Math.floor(Math.random()*emoji.length)
+            advice = `${advice}${emoji[i]}`;
+
+            message.author.send(advice);
             break;
         
         default:
