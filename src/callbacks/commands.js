@@ -61,6 +61,9 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(res);
             break;
         case "help":
+            let advice = await Axios.get("https://api.adviceslip.com/advice");
+            advice = advice.data.slip.advice;
+                
             let body = `Hi <@${authorID}>\n\n`
             body += `Here are the commands I can respond to:\n\n`
             body += `\` .ping \`  - check if I'm active 🏓\n\n`
@@ -70,6 +73,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             body += `\` .chuck \` - get a chuck norris quote🤠\n\n`
             body += `\` .sha256 [plain-text] \` - SHA256 digest 🔐\n\n`
             body += `\` .goat \` - 🐏 \n\n`
+            body += `${advice} ✨`
 
             let embed = {
                 color: 3447003,
@@ -81,12 +85,6 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         
         default:
             message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
-            let advice = await Axios.get("https://api.adviceslip.com/advice");
-            advice = advice.data.slip.advice
-            setTimeout(()=>{
-                message.channel.send(`${advice}✨`);
-                
-            },4000)
             
     }
 }
