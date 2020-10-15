@@ -55,6 +55,11 @@ client.on('message',async(message)=>{
 
     if(isBot) return;
 
+    if(content.toLowerCase() == "gg"){
+        message.channel.send('😊');
+        return
+    }
+
     if(content.startsWith(".")){
         const [CMD,...args] = content.trim()   
             .toLowerCase()
