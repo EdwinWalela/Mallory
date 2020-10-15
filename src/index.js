@@ -48,7 +48,6 @@ client.login(TOKEN);
 
 client.on("ready",async()=>{
     console.log("Bot online");
-    const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
     client.user.setActivity('Lo-Fi',{type:'CUSTOM_STATUS'})
 })
 
@@ -66,7 +65,7 @@ client.on('message',async(message)=>{
             .substr(1,content.length)
             .split(/\s+/)
         
-       RIDDLE_MODE = await baseCommands(CMD,message.channel,authorID,isBot,client,requestTime)
+       RIDDLE_MODE = await baseCommands(CMD,args,message,client,requestTime)
         
     }else if(RIDDLE_MODE){
         await riddleCommands(content,message.channel,authorID)    
