@@ -7,12 +7,13 @@ let RIDDLE_MODE = false;
 const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
-const crypto = require("crypto");
 
-const riddle = require("./callbacks/riddle");
+const crypto = require("crypto");
 
 const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
+
+const {baseCommands,riddleCommands} = require("./callbacks/commands");
 
 const Lesson = require("./models/Lesson");
 const Riddle = require("./models/Riddle");
@@ -48,18 +49,12 @@ client.login(TOKEN);
 client.on("ready",async()=>{
     console.log("Bot online");
     const channel = await client.channels.fetch(process.env.GENERAL_CHANNEL);
-    client.user.setActivity('Lo-Fi',{type:'LISTENING'})
-    //"Hello @everyone, I'm back! 🥳","Hi @everyone, What did I miss?"
-    // const greetings = ["Hello World 🌍","I come in peace 👽"]
-    
-    // channel.send(greetings[Math.floor(Math.random()*greetings.length)]);
+    client.user.setActivity('Lo-Fi',{type:'CUSTOM_STATUS'})
 })
 
 client.on('message',async(message)=>{
     const requestTime = new Date().getMilliseconds();
-    let channel = message.channel.name;
     let content = message.content;
-    let author = message.author.username;
     let isBot = message.author.bot;
     let authorID = message.author.id;
 
@@ -71,108 +66,11 @@ client.on('message',async(message)=>{
             .substr(1,content.length)
             .split(/\s+/)
         
-        switch (CMD) {
-            case "ping":
-                const responseTime = new Date().getMilliseconds();
-                const ping = responseTime - requestTime;
-                message.channel.send(`🏓 Pong! ${ping} ms`);
-                break;
-            case "next":
-                if(isBot) return; 
-                let lesson = await nextClass();
-                let activities = ["Rocket League","Among us","PUBG","Assignments"];
-
-                let activity = activities[Math.floor(Math.random()*activities.length)];
-             
-                
-                let msg = lesson.length !=0 ? 
-                    `Hello <@${authorID}>, The next class is ${lesson.title} at ${lesson.startHour}.00 hrs\n\nLink 🔗: ${lesson.link}` 
-                 :
-                    `Hi <@${authorID}>, You have no more classes today🥳 \n\n${activity}? 😏`;
-
-                message.channel.send(msg)
-
-                break;
-            
-            case "riddle":
-                RIDDLE_MODE = true;
-                await riddle(["edwin","mallory"],message.channel,client);
-                break;
-
-            case "sha256":
-                const hash = crypto.createHash('sha256');
-                message.channel.send(`\`${hash.digest('hex')}\``)
-                break;
-            
-            case "goat":
-                message.channel.send({files:["http://placegoat.com/600.jpg"]})
-                break;
-
-            case "help":
-                
-                let body = `Hi <@${authorID}>\n\n`
-                body += `Here are the commands I can respond to:\n\n`
-                body += `\` .ping \`  - check if I'm active 🏓\n\n`
-                body += `\` .next \` - an update on when the next class 📚\n\n`
-                body += `\` .riddle \` - play a quick riddle game \n\n`
-                body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
-                body += `\` .sha256 [plain-text] \` - SHA256 digest \n\n`
-                body += `\` .goat \` - 🐏 \n\n`
-
-                let embed = {
-                    color: 3447003,
-                    description:body
-                }
-
-                message.channel.send({embed});
-                break;
-            
-            default:
-                message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help`)
-                break;
-        }
-    }else if(RIDDLE_MODE){
-        let session = await RiddleSession.findOne({});
-        let riddle = await Riddle.findById(session.current);
-
-        if(riddle.answers.includes(content.toLowerCase()) ){
-            message.channel.send(`GG <@${authorID}> 🥳`)
-            RIDDLE_MODE = false;
-        }else if(content.toLowerCase() == "pass" ){
-            message.channel.send("Better luck next time 🙃");
-            RIDDLE_MODE = false;
-        }else{
-            let choice = Math.floor(Math.random()*5)
-            switch (choice) {
-                case 1:
-                    message.channel.send("Try again");
-                    break;
-                case 2:
-                    message.channel.send("Not quite");
-                    break;
-
-                case 3:
-                    message.channel.send("Give it another shot");
-                    break;
-
-                case 4:
-                    let word = riddle.answers[0];
-                    let wordLength = word.length
-                    let lastChar = word[wordLength-1];
-                    
-                    message.channel.send(`Hint: Ends with '${lastChar}' 😉`)
-                    break;
-
-                default:
-                    message.channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
-                    break;
-            }
-           
-           
-        }
+       RIDDLE_MODE = await baseCommands(CMD,message.channel,authorID,isBot,client,requestTime)
         
+    }else if(RIDDLE_MODE){
+        await riddleCommands(content,message.channel,authorID)    
     }
-
 })
 
 client.on("class-update",async(lesson)=>{
@@ -203,20 +101,3 @@ setInterval(async()=>{
 
 // },5000) //5 seconds
 },9*60000) // 10 minutes
-
-const nextClass = async() =>{
-    let time  = new Date().getUTCHours() + 3;
-    let day = new Date().getDay();
-
-    let lessons = await Lesson.find({day});
-
-    lessons = lessons.filter(lesson=> Number(lesson.startHour) - time <= 8)
-
-    lessons = lessons.filter(lesson=> Number(lesson.startHour) > time)
-
-    if(lessons.length != 0){
-        return lessons[0]
-    }else{
-        return [];
-    }
-}
