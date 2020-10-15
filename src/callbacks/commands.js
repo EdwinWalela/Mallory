@@ -83,8 +83,11 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
             let advice = await Axios.get("https://api.adviceslip.com/advice");
             advice = advice.data.slip.advice
-            message.channel.send(`${advice}✨`);
-            break;
+            setTimeout(()=>{
+                message.channel.send(`${advice}✨`);
+                
+            },4000)
+            
     }
 }
 
