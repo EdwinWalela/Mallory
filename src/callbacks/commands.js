@@ -22,7 +22,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         case "ping":
             const responseTime = new Date().getMilliseconds();
             const ping = responseTime - requestTime;
-            channel.send(`🏓 Pong! ${ping} ms`);
+            message.channel.send(`🏓 Pong! ${ping} ms`);
             break;
         case "next":
             if(isBot) return; 
@@ -35,7 +35,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
              :
                 `Hi <@${authorID}>, You have no more classes today🥳 \n\n${activity}? 😏`;
 
-            channel.send(msg)
+            message.channel.send(msg)
             break;
         
         case "riddle":
@@ -45,11 +45,11 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         case "sha256":
             const hash = crypto.createHash('sha256');
             hash.update(args.toString())
-            channel.send(`\`${hash.copy().digest('hex')}\``)
+            message.channel.send(`\`${hash.copy().digest('hex')}\``)
             break;
         
         case "goat":
-            channel.send({files:["http://placegoat.com/600.jpg"]})
+            message.channel.send({files:["http://placegoat.com/600.jpg"]})
             break;
 
         case "join":
@@ -109,7 +109,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
                 description:body
             }
 
-            channel.send({embed});
+            message.channel.send({embed});
             break;
         
         default:
