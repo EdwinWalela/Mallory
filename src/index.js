@@ -20,6 +20,7 @@ const Riddle = require("./models/Riddle");
 const RiddleSession = require("./models/RiddleSession");
 
 const app = express();
+const client = new Client({disableEveryone:false});
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
@@ -42,7 +43,6 @@ app.get('/',(req,res)=>{
     res.send({msg:"Hello World 🌍"})
 })
 
-const client = new Client({disableEveryone:false});
 
 client.login(TOKEN);
 

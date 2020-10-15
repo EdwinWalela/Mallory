@@ -11,10 +11,12 @@ const riddleCallback = require("./riddle");
 const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
 
-let playerQueue = [];
+let playerQueue = new Map();
+
 let voiceCh;
 
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
+    const serverQueue = playerQueue.get(message.guild.id)
     let channel = message.channel;
     let isBot = message.author.bot;
     let authorID = message.author.id;
@@ -44,7 +46,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
 
         case "sha256":
             const hash = crypto.createHash('sha256');
-            hash.update(args.toString())
+            hash.update(args.toString().replace(/,/g, ' '))
             message.channel.send(`\`${hash.copy().digest('hex')}\``)
             break;
         
@@ -52,48 +54,6 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send({files:["http://placegoat.com/600.jpg"]})
             break;
 
-        case "join":
-            let voiceChannel = message.member.voice.channel;
-            if(!voiceChannel){
-                return message.channel.send("You need to be in a voice channel");
-            }
-            youtubePlayer(voiceChannel);
-            break;
-        
-        case "add":
-            let query = args.toString().replace(/,/,' ')
-            if(!query){
-                return message.channel.send("Remember to add a video title")
-            }
-            let vid = await youtube.searchVideos(query);
-            await addToQueue(vid,message.channel);
-            break;
-
-        case "queue":
-            let list = `Queue 🎧\n\n`;
-            if(playerQueue.length!=0){
-                playerQueue.forEach((vid,i) => {
-                    list+=`${i+1}. ${vid.title}\n`
-                });
-                let embedMsg = {
-                    color: 3447003,
-                    description:list
-                }
-                message.channel.send({embed:embedMsg})
-            }else{
-                let embedMsg = {
-                    color: 3447003,
-                    description:"Queue is empty"
-                }
-                message.channel.send({embed:embedMsg});
-            }
-            break;
-        case "leave":
-            let channel = message.member.voice.channel;
-            if(!channel){
-                return message.channel.send("You need to be in the voice channel to do that");
-            }
-            break;
         case "help":
             let body = `Hi <@${authorID}>\n\n`
             body += `Here are the commands I can respond to:\n\n`
@@ -172,31 +132,6 @@ const nextClass = async() =>{
     }else{
         return [];
     }
-}
-
-const joinVoice = async(channel) =>{
-    try{
-        voiceCh = await channel.join()
-    }catch(err){
-        console.log(err);
-        return;
-    }
-}
-
-const addToQueue = async(vid,channel) =>{
-    const info = await ytdl.getInfo(vid.id);
-    const video = {
-        title:info.videoDetails.title,
-        url:info.videoDetails.url
-    }
-    playerQueue.push(video);
-
-    let embed = {
-        color: 3447003,
-        description:`${video.title} has been added to the queue`
-    }
-
-    return channel.send({embed});
 }
 
 module.exports = {baseCommands,riddleCommands}
