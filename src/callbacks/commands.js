@@ -63,7 +63,6 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             body += `\` .chuck \` - get a chuck norris quote🤠\n\n`
             body += `\` .sha256 [plain-text] \` - SHA256 digest 🔐\n\n`
             body += `\` .goat \` - 🐏 \n\n`
-            body += `${advice} ✨`
 
             let embed = {
                 color: 3447003,
@@ -71,6 +70,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             }
 
             message.channel.send({embed});
+            message.author.send(`${advice}✨`);
             break;
         
         default:

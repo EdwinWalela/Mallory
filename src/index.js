@@ -8,16 +8,12 @@ const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
 
-const crypto = require("crypto");
-
 const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
 
 const {baseCommands,riddleCommands} = require("./callbacks/commands");
 
 const Lesson = require("./models/Lesson");
-const Riddle = require("./models/Riddle");
-const RiddleSession = require("./models/RiddleSession");
 
 const app = express();
 const client = new Client({disableEveryone:false});
@@ -68,7 +64,7 @@ client.on('message',async(message)=>{
        RIDDLE_MODE = await baseCommands(CMD,args,message,client,requestTime)
         
     }else if(RIDDLE_MODE){
-        RIDDLE_MODE= await riddleCommands(content,message.channel,authorID)    
+        RIDDLE_MODE = await riddleCommands(content,message.channel,authorID)    
     }
 })
 
