@@ -98,5 +98,6 @@ setInterval(async()=>{
 
     console.log(`last check at ${new Date().getTime()}`)
 
-// },5000) //5 seconds
+// },5s000) //5 seconds
 },9*60000) // 10 minutes
+

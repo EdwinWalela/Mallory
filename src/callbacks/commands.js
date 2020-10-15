@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const ytdl = require("ytdl-core");
-const YouTube = require("discord-youtube-api")
+const YouTube = require("discord-youtube-api");
+const Axios = require("axios");
 
 const youtube = new YouTube(process.env.YT_API_KEY)
 
@@ -54,6 +55,11 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send({files:["http://placegoat.com/600.jpg"]})
             break;
 
+        case "chuck":
+            let res = await Axios.get("https://api.chucknorris.io/jokes/random");
+            res = res.data.value;
+            message.channel.send(res);
+            break;
         case "help":
             let body = `Hi <@${authorID}>\n\n`
             body += `Here are the commands I can respond to:\n\n`
@@ -61,7 +67,8 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             body += `\` .next \` - an update on when the next class 📚\n\n`
             body += `\` .riddle \` - play a quick riddle game \n\n`
             body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
-            body += `\` .sha256 [plain-text] \` - SHA256 digest \n\n`
+            body += `\` .chuck \` - get a chuck norris quote🤠\n\n`
+            body += `\` .sha256 [plain-text] \` - SHA256 digest 🔐\n\n`
             body += `\` .goat \` - 🐏 \n\n`
 
             let embed = {
@@ -73,7 +80,10 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         default:
-            message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help`)
+            message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
+            let advice = await Axios.get("https://api.adviceslip.com/advice");
+            advice = advice.data.slip.advice
+            message.channel.send(`${advice}✨`);
             break;
     }
 }
