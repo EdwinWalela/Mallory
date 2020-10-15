@@ -43,6 +43,17 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         
         case "goat":
             message.channel.send({files:["http://placegoat.com/600.jpg"]})
+            let taunt = [
+                `That's what you are <@${authorID}>`,
+                `All hail <@${authorID}>`,
+                `Give it up for <@${authorID}>`,
+                `Excuse me <@${authorID}>, you dropped your 👑`
+            ]
+            let index = Math.floor(Math.random()*taunt.length)
+            setTimeout(()=>{
+                message.channel.send(taunt[index])
+            },2500)
+           
             break;
 
         case "chuck":
