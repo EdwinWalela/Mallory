@@ -48,7 +48,7 @@ client.login(TOKEN);
 
 client.on("ready",async()=>{
     console.log("Bot online");
-    client.user.setActivity('Lo-Fi',{type:'CUSTOM_STATUS'})
+    client.user.setActivity('Lo-Fi',{type:'LISTENING'})
 })
 
 client.on('message',async(message)=>{
@@ -68,7 +68,7 @@ client.on('message',async(message)=>{
        RIDDLE_MODE = await baseCommands(CMD,args,message,client,requestTime)
         
     }else if(RIDDLE_MODE){
-        await riddleCommands(content,message.channel,authorID)    
+        RIDDLE_MODE= await riddleCommands(content,message.channel,authorID)    
     }
 })
 

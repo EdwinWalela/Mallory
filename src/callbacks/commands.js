@@ -1,9 +1,5 @@
 const crypto = require("crypto");
-const ytdl = require("ytdl-core");
-const YouTube = require("discord-youtube-api");
 const Axios = require("axios");
-
-const youtube = new YouTube(process.env.YT_API_KEY)
 
 const Lesson = require("../models/Lesson");
 const riddleCallback = require("./riddle");
@@ -12,13 +8,7 @@ const riddleCallback = require("./riddle");
 const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
 
-let playerQueue = new Map();
-
-let voiceCh;
-
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
-    const serverQueue = playerQueue.get(message.guild.id)
-    let channel = message.channel;
     let isBot = message.author.bot;
     let authorID = message.author.id;
     switch (CMD) {
