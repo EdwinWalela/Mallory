@@ -110,13 +110,13 @@ const riddleCommands = async (answer,channel,authorID) =>{
         switch (choice) {
             case 1:
                 channel.send("Try again");
-                break;
+                return true;
             case 2:
                 channel.send("Not quite");
-                break;
+                return true;
             case 3:
                 channel.send("Give it another shot");
-                break;
+                return true;
 
             case 4:
                 let word = riddle.answers[0];
@@ -124,11 +124,11 @@ const riddleCommands = async (answer,channel,authorID) =>{
                 let lastChar = word[wordLength-1];
                 
                 channel.send(`Hint: Ends with '${lastChar}' 😉`)
-                break;
+                return true;
 
             default:
                 channel.send(`Hint: Starts with '${riddle.answers[0][0]}' 😉`);
-                break;
+                return true;
         }
        
     }
