@@ -41,6 +41,26 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(`\`${hash.copy().digest('hex')}\``)
             break;
         
+        case "binary":
+            let bstr = toBinary(args.toString().replace(/,/g, ' '));
+            
+            let binaryResult = {
+                color:3447003,
+                description:bstr
+            }
+            message.channel.send({embed:binaryResult})
+            break;
+    
+        case "hex":
+            let hstr = toHex(args.toString().replace(/,/g, ' '));
+            
+            let hexResult = {
+                color:3447003,
+                description:    hstr
+            }
+            message.channel.send({embed:hexResult})
+            break;
+        
         case "goat":
             message.channel.send({files:["http://placegoat.com/600.jpg"]})
             let taunt = [
@@ -73,6 +93,8 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
             body += `\` .chuck \` - get a chuck norris quote🤠\n\n`
             body += `\` .sha256 [plain-text] \` - SHA256 digest 🔐\n\n`
+            body += `\` .binary [string] \` - convert string to binary 🔀\n\n`
+            body += `\` .hex [string] \` - convert string to hexadecimal 🔀\n\n`
             body += `\` .goat \` - 🐏 \n\n`
 
             let embed = {
@@ -149,6 +171,22 @@ const nextClass = async() =>{
     }else{
         return [];
     }
+}
+
+const toBinary = (string) =>{
+    let binary = "";
+    [...string].forEach((c,i) => {
+        binary += `${string[i].charCodeAt(0).toString(2)} `
+    });
+    return binary;
+}
+
+const toHex = (string)=>{
+    let hex = "";
+    [...string].forEach((c,i) => {
+        hex += `${string[i].charCodeAt(0).toString(16)} `
+    });
+    return hex;
 }
 
 module.exports = {baseCommands,riddleCommands}
