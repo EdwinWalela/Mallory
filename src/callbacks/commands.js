@@ -20,13 +20,23 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         case "next":
             if(isBot) return; 
             let lesson = await nextClass();
-            let activities = ["Rocket League","Among us","PUBG","Assignments"];
+            let activities = ["Rocket League","Among us","PUBG"];
             let activity = activities[Math.floor(Math.random()*activities.length)];
-                
+
             let msg = lesson.length !=0 ? 
                 `Hello <@${authorID}>, The next class is ${lesson.title} at ${lesson.startHour}.00 hrs\n\nLink 🔗: ${lesson.link}` 
              :
-                `Hi <@${authorID}>, You have no more classes today🥳 \n\n${activity}? 😏`;
+                `Hi <@${authorID}>, You have no more classes today🥳`;
+
+            let tomorrowClasses = await nextDayClass();
+
+            if(tomorrowClasses.length != 0){
+                msg += "\n\n**Tomorrow's classes 📚**\n\n"
+                tomorrowClasses.forEach(l => {
+                    msg+= `${l.title} @ ${l.startHour}.00 hrs\n` 
+                });
+                
+            }
 
             message.channel.send(msg)
             break;
@@ -154,6 +164,14 @@ const riddleCommands = async (answer,channel,authorID) =>{
         }
        
     }
+}
+
+const nextDayClass = async() =>{
+    let day = new Date().getDay() + 1;
+
+    let lessons = await Lesson.find({day});
+
+    return lessons;
 }
 
 const nextClass = async() =>{
