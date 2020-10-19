@@ -68,6 +68,11 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
                 break;
             }
             
+            if(choice.length > 1){
+                await message.delete()
+                message.channel.send('One letter at a time please\ntry `.guess a`');
+                return;
+            }
             await game.guess(choice,authorID)
             await message.delete();
             break;
