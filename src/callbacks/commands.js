@@ -52,6 +52,10 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
 
         case "guess":
             let choice = args[0];
+            if(!choice){
+                message.channel.send('You forgot to include your guess \ntry `.guess a`');
+                break;
+            }
             await game.guess(choice,authorID)
             await message.delete();
             break;
