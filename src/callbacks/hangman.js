@@ -3,7 +3,7 @@ const  EMBED_GREEN = 3066993
 const  EMBED_RED = 15158332
 
 class Hangman{
-    constructor(word,category,difficulty,channel){
+    constructor(word,category,difficulty,channel,user){
         this.word = word;
         this.category = category;
         this.difficulty = difficulty;
@@ -12,10 +12,11 @@ class Hangman{
         this.wordProgress = [];
         this.wrongCount = 0;
         this.channel = channel;
+        this.initiator = user
     }
 
-    async init(user){
-        let gameInfo = `New Game Started by <@${user}>\n\n`;
+    async init(){
+        let gameInfo = `New Game Started by <@${this.initiator}>\n\n`;
         gameInfo += `**Category** : ${this.category} (${this.difficulty})\n\n**Word**\n`;
 
         [...this.word].forEach(c => {
@@ -25,7 +26,7 @@ class Hangman{
         gameInfo+=this.wordProgress;
 
         gameInfo+=`\n\n**How To Play**\n`
-        gameInfo+=`- Guess any letter using  the command \`.guess [letter]\`\n`
+        gameInfo+=`- Guess any letter using the command \`.guess [letter]\`\n`
         gameInfo+=`- End the game using the command \`.end\``
 
         this.gameEmbed = {
@@ -38,15 +39,14 @@ class Hangman{
     }
 
     async guess(letter,user){
-
-        let gameInfo = `**Category** : ${this.category} (${this.difficulty})\n\n**Word**\n`;
-
+        let gameInfo = `New Game Started by <@${user}>\n\n`;
+        gameInfo += `**Category** : ${this.category} (${this.difficulty})\n\n**Word**\n`;
         if(this.guesses.includes(letter)){
             this.channel.send(`already guessed letter \`${letter}\``)
-        }else if(this.wrongCount<7){
+        }else if(!this.word.includes(letter)){
             this.wrongCount++;
-            
-        }else{
+        }
+        if(this.wrongCount >= 6){
             let endMsg = `**GAME OVER 🤡**\n\n${gameInfo}${this.word.toUpperCase()}`
             this.gameEmbed = {
                 color:EMBED_RED,
@@ -93,12 +93,16 @@ class Hangman{
         gameInfo += this.wordProgress.toString().replace(/,/g, ' ')
 
         let guesses = this.guesses;
-        gameInfo +=`\n\n\`Guesses: [`;
+        gameInfo +=`\n\n\`Letters guessed so far: [`;
 
         [...guesses].forEach((letter)=>{
             gameInfo+=` ${letter.toUpperCase()} `
         })
-        gameInfo+=`]\`\n`
+        gameInfo+=`]\`\n`;
+        gameInfo+=`\n **${6-this.wrongCount}/6** chances remaining\n`
+        gameInfo+=`\n**How To Play**\n`
+        gameInfo+=`- Guess any letter using  the command \`.guess [letter]\`\n`
+        gameInfo+=`- End the game using the command \`.end\``
         
         this.gameEmbed = {
             color:EMBED_BLUE,
@@ -111,6 +115,7 @@ class Hangman{
         }catch(err){
             console.log("msg already deleted")
         }
+        
         
         this.msgID = await this.channel.send({embed:this.gameEmbed})
     }

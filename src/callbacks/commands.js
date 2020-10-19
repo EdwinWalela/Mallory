@@ -9,7 +9,7 @@ const HangmanWord = require("../models/Hangman");
 const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
 
-let game;
+let game = null;
 
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
     let isBot = message.author.bot;
@@ -46,25 +46,35 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         case "hangman":
+            if(game){
+                message.channel.send(`There is already a game in progress by <@${game.initiator}>.\nUse \`.guess [letter]\` to play the game`)
+                return;
+            }
             let gameData = await HangmanWord.find({});
             let randomIndex = Math.floor(Math.random()*gameData.length);
             let randomData = gameData[randomIndex];
-            game = new Hangman(randomData.word,randomData.category,randomData.difficulty,message.channel);
-            await game.init(authorID);
+            game = new Hangman(randomData.word,randomData.category,randomData.difficulty,message.channel,authorID);
+            await game.init();
             break;
 
         case "guess":
             let choice = args[0];
+            if(!game){
+                message.channel.send("No game in progress. You can start one with `.hangman`")
+                return;
+            }
             if(!choice){
-                message.channel.send('You forgot to include your guess \ntry `.guess a`');
+                message.channel.send('You forgot to include your guess\ntry `.guess a`');
                 break;
             }
+            
             await game.guess(choice,authorID)
             await message.delete();
             break;
 
         case "end":
             let initalMsg;
+            game = null;
             try{
                 initalMsg = await message.channel.messages.fetch(game.msgID.id);
                 await initalMsg.delete()
