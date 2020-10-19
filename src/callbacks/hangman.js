@@ -12,7 +12,8 @@ class Hangman{
         this.wordProgress = [];
         this.wrongCount = 0;
         this.channel = channel;
-        this.initiator = user
+        this.initiator = user;
+        this.isFinished = false;
     }
 
     async init(){
@@ -87,6 +88,7 @@ class Hangman{
             }catch(err){
                 console.log("msg already deleted")
             }
+            this.isFinished = true;
             return;
         }
 

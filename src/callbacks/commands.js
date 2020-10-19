@@ -59,7 +59,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
 
         case "guess":
             let choice = args[0];
-            if(!game){
+            if(!game || game.isFinished){
                 message.channel.send("No game in progress. You can start one with `.hangman`")
                 return;
             }
