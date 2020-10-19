@@ -3,10 +3,13 @@ const Axios = require("axios");
 
 const Lesson = require("../models/Lesson");
 const riddleCallback = require("./riddle");
+const Hangman = require("./hangman");
 
 
 const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
+
+let game;
 
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
     let isBot = message.author.bot;
@@ -16,6 +19,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             const responseTime = new Date().getMilliseconds();
             const ping = responseTime - requestTime;
             message.channel.send(`🏓 Pong! ${ping} ms`);
+            await Axios.get('https://mallory-bot.herokuapp.com')
             break;
         case "next":
             if(isBot) return; 
@@ -41,6 +45,36 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(msg)
             break;
         
+        case "hangman":
+            game = new Hangman("apple","Fruit","easy",message.channel);
+            await game.init(authorID);
+            break;
+
+        case "guess":
+            let choice = args[0];
+            await game.guess(choice,authorID)
+            await message.delete();
+            break;
+
+        case "end":
+            let initalMsg;
+            try{
+                initalMsg = await message.channel.messages.fetch(game.msgID.id);
+                await initalMsg.delete()
+            }catch(err){
+                console.log("No game")
+                message.channel.send("No game in progress.You can start one with `.hangman`")
+                return;
+            }
+
+            let endEmbed = {
+                color:3447003,
+                description:`Game Ended by <@${authorID}>`
+            }
+
+            message.channel.send({embed:endEmbed})
+            break;
+        
         case "riddle":
             await riddleCallback(["edwin","mallory"],message.channel,client);
             return true;
@@ -51,6 +85,8 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(`\`${hash.copy().digest('hex')}\``)
             break;
         
+        
+
         case "binary":
             let bstr = toBinary(args.toString().replace(/,/g, ' '));
             
