@@ -43,7 +43,7 @@ class Hangman{
 
         if(this.guesses.includes(letter)){
             this.channel.send(`already guessed letter \`${letter}\``)
-        }else if(this.wrongCount<5){
+        }else if(this.wrongCount<7){
             this.wrongCount++;
             
         }else{

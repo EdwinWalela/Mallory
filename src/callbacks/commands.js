@@ -92,8 +92,6 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             message.channel.send(`\`${hash.copy().digest('hex')}\``)
             break;
         
-        
-
         case "binary":
             let bstr = toBinary(args.toString().replace(/,/g, ' '));
             
