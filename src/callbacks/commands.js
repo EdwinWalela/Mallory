@@ -79,16 +79,19 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
 
         case "end":
             let initalMsg;
-            game = null;
+            if(!game){
+                message.channel.send("No game in progress.You can start one with `.hangman`")
+            }
             try{
                 initalMsg = await message.channel.messages.fetch(game.msgID.id);
                 await initalMsg.delete()
             }catch(err){
                 console.log("No game")
+                console.log(err)
                 message.channel.send("No game in progress.You can start one with `.hangman`")
                 return;
             }
-
+            game = null;
             let endEmbed = {
                 color:3447003,
                 description:`Game Ended by <@${authorID}>`
