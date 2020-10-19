@@ -10,6 +10,7 @@ const express = require("express");
 
 const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
+const HangmanRoutes = require("./routes/Hangman");
 
 const {baseCommands,riddleCommands} = require("./callbacks/commands");
 
@@ -34,11 +35,11 @@ mongoose.connect(DB_URI,()=>{
 
 app.use('/api/lessons',LessonRoutes); 
 app.use('/api/riddles',RiddleRoutes);
+app.use('/api/hangman',HangmanRoutes);
 
 app.get('/',(req,res)=>{
     res.send({msg:"Hello World 🌍"})
 })
-
 
 client.login(TOKEN);
 

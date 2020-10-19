@@ -4,7 +4,7 @@ const Axios = require("axios");
 const Lesson = require("../models/Lesson");
 const riddleCallback = require("./riddle");
 const Hangman = require("./hangman");
-
+const HangmanWord = require("../models/Hangman");
 
 const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
@@ -46,7 +46,10 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         case "hangman":
-            game = new Hangman("apple","Fruit","easy",message.channel);
+            let gameData = await HangmanWord.find({});
+            let randomIndex = Math.floor(Math.random()*gameData.length);
+            let randomData = gameData[randomIndex];
+            game = new Hangman(randomData.word,randomData.category,randomData.difficulty,message.channel);
             await game.init(authorID);
             break;
 
