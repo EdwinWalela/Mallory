@@ -144,6 +144,8 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             body += `\` .next \` - an update on when the next class 📚\n\n`
             body += `\` .riddle \` - play a quick riddle game \n\n`
             body += `\`  pass \` - end the riddle game 🙅‍♂️ \n\n`
+            body += `\` .hangman \` - start a hangman game \n\n`
+            body += `\` .end \` - end the current hangman game \n\n`
             body += `\` .chuck \` - get a chuck norris quote🤠\n\n`
             body += `\` .sha256 [plain-text] \` - SHA256 digest 🔐\n\n`
             body += `\` .binary [string] \` - convert string to binary 🔀\n\n`

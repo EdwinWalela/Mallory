@@ -25,8 +25,8 @@ class Hangman{
         gameInfo+=this.wordProgress;
 
         gameInfo+=`\n\n**How To Play**\n`
-        gameInfo+=`Guess any letter using  the command \`.guess [letter]\``
-        
+        gameInfo+=`- Guess any letter using  the command \`.guess [letter]\`\n`
+        gameInfo+=`- End the game using the command \`.end\``
 
         this.gameEmbed = {
             color:EMBED_BLUE,
