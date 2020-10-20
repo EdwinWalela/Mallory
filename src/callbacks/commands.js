@@ -69,7 +69,11 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             }
             
             if(choice.length > 1){
-                await message.delete()
+                try{
+                    await message.delete()
+                }catch(err){
+                    console.log("message not found")
+                }
                 message.channel.send('One letter at a time please\ntry `.guess a`');
                 return;
             }
@@ -81,6 +85,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             let initalMsg;
             if(!game){
                 message.channel.send("No game in progress.You can start one with `.hangman`")
+                return;
             }
             try{
                 initalMsg = await message.channel.messages.fetch(game.msgID.id);

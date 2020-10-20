@@ -40,29 +40,19 @@ class Hangman{
     }
 
     async guess(letter,user){
-        let gameInfo = `New Game Started by <@${user}>\n\n`;
+        let gameInfo = `Game Started by <@${user}>\n\n`;
         gameInfo += `**Category** : ${this.category} (${this.difficulty})\n\n**Word**\n`;
         if(this.guesses.includes(letter)){
-            this.channel.send(`already guessed letter \`${letter}\``)
+            this.channel.send(`already guessed letter \`${letter}\``);
+            return;
         }else if(!this.word.includes(letter)){
             this.wrongCount++;
         }
         if(this.wrongCount >= 6){
-            let endMsg = `**GAME OVER 🤡**\n\n${gameInfo}${this.word.toUpperCase()}`
-            this.gameEmbed = {
-                color:EMBED_RED,
-                description:endMsg
-            }
-            this.channel.send({embed:this.gameEmbed});
-            let initalMsg;
-            try{
-                initalMsg = await this.channel.messages.fetch(this.msgID.id);
-                await initalMsg.delete()
-            }catch(err){
-                console.log("msg already deleted")
-            }
+            await this.lostGame(gameInfo);
             return;
         }
+
         this.guesses.push(letter)
         let word = this.word;
 
@@ -74,7 +64,7 @@ class Hangman{
         }
 
         if(this.wordProgress.toString().replace(/,/g, '')== this.word.toUpperCase()){
-            
+            gameInfo = `**Category** : ${this.category} (${this.difficulty})\n\n**Word**\n`;
             let endMsg = `**GG! We have a winner <@${user}>🥳🥳**\n\n${gameInfo}${this.word.toUpperCase()}`
             this.gameEmbed = {
                 color:EMBED_GREEN,
@@ -120,6 +110,24 @@ class Hangman{
         
         
         this.msgID = await this.channel.send({embed:this.gameEmbed})
+    }
+
+    async lostGame(gameInfo){
+        let endMsg = `**GAME OVER 🤡**\n\n${gameInfo}${this.word.toUpperCase()}`
+        this.gameEmbed = {
+            color:EMBED_RED,
+            description:endMsg
+        }
+        this.channel.send({embed:this.gameEmbed});
+        let initalMsg;
+        try{
+            initalMsg = await this.channel.messages.fetch(this.msgID.id);
+            await initalMsg.delete()
+        }catch(err){
+            console.log("msg already deleted")
+        }
+        this.isFinished = true;
+        return;
     }
 }
 
