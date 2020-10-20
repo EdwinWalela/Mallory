@@ -49,6 +49,7 @@ class Hangman{
             this.wrongCount++;
         }
         if(this.wrongCount >= 6){
+            this.isFinished = true;
             await this.lostGame(gameInfo);
             return;
         }
@@ -107,12 +108,11 @@ class Hangman{
         }catch(err){
             console.log("msg already deleted")
         }
-        
-        
         this.msgID = await this.channel.send({embed:this.gameEmbed})
     }
 
     async lostGame(gameInfo){
+        this.isFinished = true;
         let endMsg = `**GAME OVER 🤡**\n\n${gameInfo}${this.word.toUpperCase()}`
         this.gameEmbed = {
             color:EMBED_RED,
@@ -126,7 +126,7 @@ class Hangman{
         }catch(err){
             console.log("msg already deleted")
         }
-        this.isFinished = true;
+        
         return;
     }
 }

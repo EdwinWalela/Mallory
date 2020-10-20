@@ -38,15 +38,14 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
                 msg += "\n\n**Tomorrow's classes 📚**\n\n"
                 tomorrowClasses.forEach(l => {
                     msg+= `${l.title} @ ${l.startHour}.00 hrs\n` 
-                });
-                
+                });    
             }
 
             message.channel.send(msg)
             break;
         
         case "hangman":
-            if(game){
+            if(game && !game.isFinished){
                 message.channel.send(`There is already a game in progress by <@${game.initiator}>.\nUse \`.guess [letter]\` to play the game`)
                 return;
             }
@@ -82,6 +81,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
 
         case "end":
+           
             let initalMsg;
             if(!game){
                 message.channel.send("No game in progress.You can start one with `.hangman`")
@@ -103,6 +103,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             }
 
             message.channel.send({embed:endEmbed})
+            console.log(game.isFinished)
             break;
         
         case "riddle":
