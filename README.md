@@ -1,14 +1,16 @@
 # Mallory
- A Multi-purpose Discord Bot 
+ A Multi-purpose Discord Bot designed to bring life to any discord server.
+
+Want Mallory to join your  server?[ Give her a try.](https://discord.com/oauth2/authorize?client_id=765509143825874944&scope=bot)
 
 ## Features
-### Chat based games
+#### Chat based games
 Play with text based games with friends e.g Hangman and solving riddles. 
 
-### Class updates 
+#### Class updates 
 Sends automated reminders when the next class is about to start and info about upcoming classes
 
-### 3rd Party API intergations 
+#### 3rd Party API intergations 
 Chuck Norris jokes API integration to keep memebers entertained
 
 
@@ -27,4 +29,5 @@ Chuck Norris jokes API integration to keep memebers entertained
 | .hex    | a string      | Convert a string to hexadecimal |
 | .help    | a string      | List all commands available |
 
-### 
+
+Want Mallory to join your discord server?[ Give her a try.](https://discord.com/oauth2/authorize?client_id=765509143825874944&scope=bot)
