@@ -96,6 +96,12 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
                 message.channel.send("No game in progress.You can start one with `.hangman`")
                 return;
             }
+
+            if(game.initiator != authorID){
+                message.channel.send("Sorry, you can not do that");
+                break;
+            }
+
             game = null;
             let endEmbed = {
                 color:3447003,
