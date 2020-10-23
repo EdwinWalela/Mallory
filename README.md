@@ -30,4 +30,6 @@ Chuck Norris jokes API integration to keep memebers entertained
 | .help    | a string      | List all commands available |
 
 
+
 Want Mallory to join your discord server?[ Give her a try.](https://discord.com/oauth2/authorize?client_id=765509143825874944&scope=bot)
+

@@ -30,6 +30,8 @@ class Hangman{
         gameInfo+=`- Guess any letter using the command \`.guess [letter]\`\n`
         gameInfo+=`- End the game using the command \`.end\``
 
+        this.gameInfo = gameInfo;
+
         this.gameEmbed = {
             color:EMBED_BLUE,
             description:gameInfo
@@ -97,6 +99,8 @@ class Hangman{
         gameInfo+=`- Guess any letter using  the command \`.guess [letter]\`\n`
         gameInfo+=`- End the game using the command \`.end\``
         
+        this.gameInfo = gameInfo;
+
         this.gameEmbed = {
             color:EMBED_BLUE,
             description:gameInfo

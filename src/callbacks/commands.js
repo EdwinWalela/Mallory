@@ -46,7 +46,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
         
         case "hangman":
             if(game && !game.isFinished){
-                message.channel.send(`There is already a game in progress by <@${game.initiator}>.\nUse \`.guess [letter]\` to play the game`)
+                message.channel.send(`There is already a game in progress\n\n${game.gameInfo}`)
                 return;
             }
             let gameData = await HangmanWord.find({});
