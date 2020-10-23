@@ -33,3 +33,5 @@ Chuck Norris jokes API integration to keep memebers entertained
 
 Want Mallory to join your discord server?[ Give her a try.](https://discord.com/oauth2/authorize?client_id=765509143825874944&scope=bot)
 
+Mallory is open-source, do you want to add a new feature? fix a bug? Submit an issue / pull request.
+
