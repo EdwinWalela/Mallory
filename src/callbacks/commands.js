@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const Axios = require("axios");
+const Fuse = require("fuse.js");
 
 const Lesson = require("../models/Lesson");
 const riddleCallback = require("./riddle");
@@ -10,6 +11,9 @@ const Riddle = require("../models/Riddle");
 const RiddleSession = require("../models/RiddleSession");
 
 let game = null;
+const COMMANDS = ["ping","next","hangman","guess","end","riddle","sha256","binary","hex","goat","chuck","help"];
+
+const fuse = new Fuse(COMMANDS);
 
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
     let isBot = message.author.bot;
@@ -195,7 +199,13 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
             break;
         
         default:
-            message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
+            const result = fuse.search(CMD);
+            if(result.length>0){
+                CMD = result[0].item;
+                message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Did you mean \`.${CMD}\`?\n\n`);
+            }else{
+                message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
+            }
             
     }
 }
