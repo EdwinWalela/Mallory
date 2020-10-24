@@ -5,6 +5,8 @@ const Fuse = require("fuse.js");
 const Lesson = require("../models/Lesson");
 const riddleCallback = require("./riddle");
 const Hangman = require("./hangman");
+const YoutubePLayer = require("./youtubePlayer");
+
 const HangmanWord = require("../models/Hangman");
 
 const Riddle = require("../models/Riddle");
@@ -14,6 +16,7 @@ let game = null;
 const COMMANDS = ["ping","next","hangman","guess","end","riddle","sha256","binary","hex","goat","chuck","help"];
 
 const fuse = new Fuse(COMMANDS);
+let YTplayer;
 
 const baseCommands = async (CMD,args,message,client,requestTime) =>{
     let isBot = message.author.bot;
@@ -21,8 +24,23 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{
     switch (CMD) {
 
         case "join": // Join voice channel
+            let vc = message.member.voice.channel;
+            if(!vc){
+                message.channel.send("You need to be in a voice channel first");
+                return;
+            }
+            YTplayer = new YoutubePLayer(vc);
+            await YTplayer.join();
             break;
         
+        case "leave":
+            if(YTplayer.connected){
+                await YTplayer.leave();
+            }else{
+                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+            }
+            break;
+
         case "add": // Add music to queue
             break;
 
