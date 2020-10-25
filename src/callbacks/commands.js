@@ -32,7 +32,6 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             const responseTime = new Date().getMilliseconds();
             const ping = responseTime - requestTime;
             message.channel.send(`🏓 Pong! ${ping} ms`);
-            await Axios.get('https://mallory-bot.herokuapp.com')
             break;
         case "next":
             if(isBot) return; 
