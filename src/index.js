@@ -1,4 +1,5 @@
 require('dotenv').config();
+require("ffmpeg-static");
 const TOKEN = process.env.DISCORD_BOT_TOKEN;
 const PORT = process.env.PORT || 3000;
 const DB_URI = process.env.DB_URI;
@@ -7,6 +8,8 @@ let RIDDLE_MODE = false;
 const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
+
+
 
 const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
