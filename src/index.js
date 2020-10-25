@@ -96,7 +96,7 @@ setInterval(async()=>{
     let lessons = await Lesson.find({day});
     lessons = lessons.filter(lesson=> Number(lesson.startHour) - time == 0)
     if(lessons.length != 0){
-        if(minute <= 10){
+        if(minute < 10){
             client.emit("class-update",lessons[0]);
         }
     }

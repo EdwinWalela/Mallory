@@ -74,7 +74,6 @@ class YoutubePlayer{
                 }))
                 .on("finish",()=>{
                     console.log("finished playing song");
-                    this.queue.shift();
                     this.play();
                 })
                 .on("error",console.log)
