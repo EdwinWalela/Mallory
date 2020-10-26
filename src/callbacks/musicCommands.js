@@ -26,7 +26,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 await YTplayer.leave();
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
             break;
 
@@ -35,7 +35,7 @@ const baseCommands = async (CMD,args,message) =>{
                 args = args.toString().replace(/,/g, ' ');
                 await YTplayer.add(args)
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
             break;
 
@@ -43,7 +43,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 YTplayer.play()
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
            
             break;
@@ -52,7 +52,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 YTplayer.skip();
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
         
             break;
@@ -61,7 +61,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 YTplayer.pause()
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
             break;
 
@@ -70,7 +70,7 @@ const baseCommands = async (CMD,args,message) =>{
                 YTplayer.resume
                 ()
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
             break;
 
@@ -78,7 +78,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 YTplayer.currentTrack()
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
            
             break;
@@ -87,7 +87,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer && YTplayer.connected){
                 YTplayer.clear()
             }else{
-                message.channel.send("I'm not connected to any channel\n try \`.join\`");
+                message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
            
             break;
@@ -96,7 +96,7 @@ const baseCommands = async (CMD,args,message) =>{
             if(YTplayer){
                 if(YTplayer.getQueue().length > 0){
                     let queue = YTplayer.getQueue();
-                    let msg = `Current Queue 🎧[${queue.length} tracks]:\n\n`;
+                    let msg = `**Music Queue 🎧(${queue.length} tracks)**\n\n`;
                     queue.forEach((vid,i) => {
                         msg+=`🔹 ${vid.title}\n`
                     });
@@ -110,7 +110,7 @@ const baseCommands = async (CMD,args,message) =>{
             }
             embed = {
                 color:3447003,
-                description:"The queue is empty, use \` .add \` to add tracks to the queue"
+                description:"The queue is empty, use \`.add \` to add tracks to the queue"
             }
             message.channel.send({embed});
             break;

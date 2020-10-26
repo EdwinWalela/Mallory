@@ -1,3 +1,6 @@
+const  EMBED_RED = 15158332;
+const  EMBED_GREEN = 3066993;
+const  EMBED_BLUE = 3447003;
 const ytdl = require("ytdl-core");
 const Youtube = require("discord-youtube-api");
 
@@ -38,15 +41,15 @@ class YoutubePlayer{
         }catch(err){
             console.log(err);
             let embed = {
-                color:3447003,
-                description:`Unable to add video to queue`
+                color:EMBED_RED,
+                description:`❌ Unable to add video to queue`
             }
             this.tc.send({embed})
             return;
         }
         let embed = {
-            color:3447003,
-            description:`${vid.title} added to queue`
+            color:EMBED_GREEN,
+            description:`**☑ ${vid.title}** added to queue`
         }
         let newVid = {
             title: vid.title,
@@ -60,8 +63,8 @@ class YoutubePlayer{
     play(){
         if(this.queue.length > 0){
             let embed = {
-                color:3447003,
-                description:`Now playing ${this.queue[0].title}`
+                color:EMBED_BLUE,
+                description:`Now playing: **${this.queue[0].title}**`
             }
             this.tc.send({embed})
             this.isPlaying = true;
@@ -78,8 +81,9 @@ class YoutubePlayer{
                 })
                 .on("error",console.log)
         }else{
+            this.isPlaying = false;
             let embed = {
-                color:3447003,
+                color:EMBED_BLUE,
                 description:`Queue is empty, Use \`.add \` to add a track to the queue`
             }
             this.tc.send({embed})
@@ -90,8 +94,9 @@ class YoutubePlayer{
         if(this.queue.length > 0){
             this.play();
         }else{
+            this.isPlaying = false;
             let embed = {
-                color:3447003,
+                color:EMBED_BLUE,
                 description:`Queue is empty, use \`.add \` to add a new track`
             }
             this.tc.send({embed})
@@ -101,13 +106,13 @@ class YoutubePlayer{
     currentTrack(){
         if(this.isPlaying){
             let embed = {
-                color:3447003,
-                description:`Now playing: ${this.playingTrack.title}`
+                color:EMBED_BLUE,
+                description:`Now playing: **${this.playingTrack.title}**`
             }
             this.tc.send({embed})
         }else{
             let embed = {
-                color:3447003,
+                color:EMBED_BLUE,
                 description:`No track is playing, use \`.play \` to play a track from the queue`
             }
             this.tc.send({embed})
