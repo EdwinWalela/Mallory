@@ -16,10 +16,12 @@ const baseCommands = async (CMD,args,message) =>{
             let tc = message.channel;
             if(!vc){
                 message.channel.send("You need to be in a voice channel first");
+                message.channel.stopTyping(true);
                 return;
             }
             YTplayer = new YoutubePLayer(vc,tc);
             await YTplayer.join();
+            message.channel.stopTyping(true);
             break;
         
         case "leave": // Leave voice channel
@@ -28,6 +30,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
+            message.channel.stopTyping(true);
             break;
 
         case "add": // Add music to queue
@@ -37,6 +40,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
+            message.channel.stopTyping(true);
             break;
 
         case "play": // Play music from queue
@@ -45,7 +49,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
-           
+            message.channel.stopTyping(true);
             break;
         
         case "skip": // Skip current track
@@ -54,7 +58,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
-        
+            message.channel.stopTyping(true);
             break;
         
         case "pause":
@@ -63,15 +67,16 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
+            message.channel.stopTyping(true);
             break;
 
         case "resume":
             if(YTplayer && YTplayer.connected){
-                YTplayer.resume
-                ()
+                YTplayer.resume()
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
+            message.channel.stopTyping(true);
             break;
 
         case "np":
@@ -80,7 +85,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
-           
+            message.channel.stopTyping(true);
             break;
 
         case "clear":
@@ -89,7 +94,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send("I'm not connected to any channel. Try \`.join\`");
             }
-           
+            message.channel.stopTyping(true);
             break;
 
         case "queue":
@@ -105,6 +110,7 @@ const baseCommands = async (CMD,args,message) =>{
                         description:msg
                     }
                     message.channel.send({embed});
+                    message.channel.stopTyping(true);
                     return;
                 }
             }
@@ -112,7 +118,9 @@ const baseCommands = async (CMD,args,message) =>{
                 color:3447003,
                 description:"The queue is empty, use \`.add \` to add tracks to the queue"
             }
+            
             message.channel.send({embed});
+            message.channel.stopTyping(true);
             break;
 
         case "help":
@@ -133,6 +141,7 @@ const baseCommands = async (CMD,args,message) =>{
             }
 
             message.channel.send({embed});
+            message.channel.stopTyping(true);
             break;
         
         default:
@@ -143,7 +152,7 @@ const baseCommands = async (CMD,args,message) =>{
             }else{
                 message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
             }
-            
+            message.channel.stopTyping(true);
     }
 }
 

@@ -21,17 +21,20 @@ const fuse = new Fuse(COMMANDS);
 const baseCommands = async (CMD,args,message,client,requestTime) =>{;
     let isBot = message.author.bot;
     let authorID = message.author.id;
+    message.channel.startTyping(5);
 
     if(message.channel.name.includes("music") && CMD !="ping"){
         musicCommands(CMD,args,message);
         return;
     }
-
+    message.channel.startTyping(5);
     switch (CMD) {
         case "ping":
             const responseTime = new Date().getMilliseconds();
             const ping = responseTime - requestTime;
+           
             message.channel.send(`🏓 Pong! ${ping} ms`);
+            message.channel.stopTyping(true);
             break;
         case "next":
             if(isBot) return; 
@@ -54,6 +57,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             }
 
             message.channel.send(msg)
+            message.channel.stopTyping(true);
             break;
         
         case "hangman":
@@ -66,6 +70,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             let randomData = gameData[randomIndex];
             game = new Hangman(randomData.word,randomData.category,randomData.difficulty,message.channel,authorID);
             await game.init();
+            message.channel.stopTyping(true);
             break;
 
         case "guess":
@@ -90,13 +95,15 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             }
             await game.guess(choice,authorID)
             await message.delete();
+            message.channel.stopTyping(true);
             break;
 
         case "end":
            
             let initalMsg;
             if(!game){
-                message.channel.send("No game in progress.You can start one with `.hangman`")
+                message.channel.send("No game in progress.You can start one with `.hangman`");
+                message.channel.stopTyping(true);
                 return;
             }
             try{
@@ -106,11 +113,13 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
                 console.log("No game")
                 console.log(err)
                 message.channel.send("No game in progress.You can start one with `.hangman`")
+                message.channel.stopTyping(true);
                 return;
             }
 
             if(game.initiator != authorID){
                 message.channel.send("Sorry, you can not do that");
+                message.channel.stopTyping(true);
                 break;
             }
 
@@ -121,6 +130,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             }
 
             message.channel.send({embed:endEmbed})
+            message.channel.stopTyping(true);
             console.log(game.isFinished)
             break;
         
@@ -132,6 +142,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             const hash = crypto.createHash('sha256');
             hash.update(args.toString().replace(/,/g, ' '))
             message.channel.send(`\`${hash.copy().digest('hex')}\``)
+            message.channel.stopTyping(true);
             break;
         
         case "binary":
@@ -142,6 +153,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
                 description:bstr
             }
             message.channel.send({embed:binaryResult})
+            message.channel.stopTyping(true);
             break;
     
         case "hex":
@@ -152,6 +164,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
                 description:    hstr
             }
             message.channel.send({embed:hexResult})
+            message.channel.stopTyping(true);
             break;
         
         case "goat":
@@ -166,13 +179,14 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             setTimeout(()=>{
                 message.channel.send(taunt[index])
             },2500)
-           
+            message.channel.stopTyping(true);
             break;
 
         case "chuck":
             let res = await Axios.get("https://api.chucknorris.io/jokes/random");
             res = res.data.value;
             message.channel.send(res);
+            message.channel.stopTyping(true);
             break;
         case "help":
             let advice = await Axios.get("https://api.adviceslip.com/advice");
@@ -198,6 +212,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             }
 
             message.channel.send({embed});
+            message.channel.stopTyping(true);
 
             let emoji = ['✨','⛱','🎈','🌍','🌅','🌟','☄','🌙','🌞'];
             let i = Math.floor(Math.random()*emoji.length)
@@ -214,6 +229,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
             }else{
                 message.channel.send(`<@${authorID}>, I don't know that command 🥴\n\n Try  .help\n\n`);
             }
+            message.channel.stopTyping(true);
             
     }
 }
