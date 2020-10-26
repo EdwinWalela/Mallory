@@ -22,7 +22,7 @@ const baseCommands = async (CMD,args,message,client,requestTime) =>{;
     let isBot = message.author.bot;
     let authorID = message.author.id;
 
-    if(message.channel.name.includes("music")){
+    if(message.channel.name.includes("music") && CMD !="ping"){
         musicCommands(CMD,args,message);
         return;
     }
