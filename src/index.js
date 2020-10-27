@@ -1,3 +1,4 @@
+const START_TIME = new Date().getTime();
 require('dotenv').config();
 require("ffmpeg-static");
 const TOKEN = process.env.DISCORD_BOT_TOKEN;
@@ -8,8 +9,6 @@ let RIDDLE_MODE = false;
 const { Client } = require('discord.js');
 const mongoose = require("mongoose");
 const express = require("express");
-
-
 
 const LessonRoutes = require("./routes/Lessons");
 const RiddleRoutes = require("./routes/Riddles");
@@ -62,6 +61,50 @@ client.on('message',async(message)=>{
     if(content.toLowerCase().includes("gg")){
         message.channel.send('😎');
         return
+    }
+    let uptimeCmd = content.slice(1,content.length)
+    if(uptimeCmd == "uptime"){
+        const uptime = new Date().getTime() - START_TIME;
+        let seconds = 1000;
+        let mins = seconds * 60;
+        let hrs = mins * 60
+        let days = hrs * 24
+        let msg = "";
+
+        let updays = Math.trunc(uptime/days)
+        let uphrs = Math.trunc(uptime/hrs) ;
+        let upmins = Math.trunc(uptime/mins);
+        let upsecs = Math.floor(uptime/seconds);
+
+        if(upsecs>60){
+            let temp = upsecs;
+            upsecs=upsecs%60;
+            upmins+=Math.trunc(temp%60);
+        }
+
+        if(upmins>60){
+            let temp = upmins;
+            upmins=upmins%60;
+            uphrs+= Math.trunc(temp/60);
+        }
+
+        if(updays>0){
+            msg += `${Math.floor(uptime/days)} days, `
+        }
+        if(uphrs>0){
+            msg+= `${Math.floor(uptime/hrs)} hours, `
+        }
+        if(upmins>0){
+            msg+= `${Math.floor(uptime/mins)} minutes, `
+        }
+        msg += `${upsecs} seconds`
+
+        let embed = {
+            color:3447003,
+            description:`I have been awake for **${msg}** and counting...`
+        }
+        message.channel.send({embed})
+        return;
     }
 
     if(content.startsWith(".")){
